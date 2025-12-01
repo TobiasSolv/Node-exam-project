@@ -1,0 +1,51 @@
+{
+	"name": "mandatory-2",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"format": "prettier --write .",
+		"lint": "prettier --check . && eslint .",
+		"express": "vite build && node express-server.js",
+		"create:database": "node database/create_database.js"
+	},
+	"dependencies": {
+		"@eslint/compat": "^1.4.0",
+		"@eslint/js": "^9.38.0",
+		"@sveltejs/adapter-auto": "^7.0.0",
+		"@sveltejs/adapter-node": "^5.4.0",
+		"@sveltejs/kit": "^2.47.1",
+		"@sveltejs/vite-plugin-svelte": "^6.2.1",
+		"@types/node": "^22",
+		"bcrypt": "^6.0.0",
+		"eslint": "^9.38.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-svelte": "^3.12.4",
+		"express": "^5.1.0",
+		"globals": "^16.4.0",
+		"jsonwebtoken": "^9.0.2",
+		"mysql2": "^3.15.3",
+		"nodemailer": "^7.0.10",
+		"prettier": "^3.6.2",
+		"prettier-plugin-svelte": "^3.4.0",
+		"sqlite": "^5.1.1",
+		"sqlite3": "^5.1.7",
+		"svelte": "^5.41.0",
+		"svelte-check": "^4.3.3",
+		"toastr": "^2.1.4",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.46.1",
+		"vite": "^7.1.10"
+	},
+	"devDependencies": {
+		"@types/bcrypt": "^6.0.0",
+		"@types/nodemailer": "^7.0.4",
+		"@types/toastr": "^2.1.43"
+	}
+}
