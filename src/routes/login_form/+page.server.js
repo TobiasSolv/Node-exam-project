@@ -27,16 +27,20 @@ export const actions = {
         }
 
         console.log("LOGIN SUCCESS");
+        console.log("Stored password:", user.password);
+        console.log("Compare:", await bcrypt.compare(password, user.password));
 
         cookies.set('session_id', user.id, {
             path: '/',
             httpOnly: true,
             sameSite: 'strict',
             secure: false,
-            maxAge: 60
+            maxAge: 60 * 60 * 24
         });
 
-        return { success: true };
+        return {
+            success: true
+        };
     }
 };
 

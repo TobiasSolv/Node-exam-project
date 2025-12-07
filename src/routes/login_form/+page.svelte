@@ -11,8 +11,8 @@
 	method="POST"
 	use:enhance={() => {
 		return async ({ result }) => {
-			if (result.type === 'success' && result.status === 200) {
-				goto('/logged_in_page');
+			if (result.type === 'success') {
+				goto('/kanban_page');
 				toastr.success('Login successful!');
 			} else {
 				toastr.error(result.type === 'error' ? result.error.message : result.data?.message);

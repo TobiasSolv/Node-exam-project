@@ -21,9 +21,23 @@ CREATE TABLE if NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     is_verified INTEGER NOT NULL DEFAULT 0
 );
+CREATE TABLE if NOT EXISTS tickets (
+    id INTEGER PRIMARY KEY,
+    status TEXT,
+    priority TEXT,
+    title TEXT,
+    body TEXT,
+    assignee TEXT,
+    estimate INTEGER,
+    created_at TEXT,
+    closed_at TEXT    
+
+);
+CREATE TABLE if NOT EXISTS ticket_comments (
+id INTEGER PRIMARY KEY,
+ticket_id INTEGET NOT NULL
+);
 `);
 
 // seeding
 // DML
-db.run(`INSERT INTO users (email, password) VALUES ('something@outlook.dk', 'pAssWOrd#321')`);
-db.run(`INSERT INTO users (email, password) VALUES ('sometg@outlook.dk', 'pAssWd#321')`);
