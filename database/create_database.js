@@ -21,6 +21,13 @@ CREATE TABLE if NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     is_verified INTEGER NOT NULL DEFAULT 0
 );
+CREATE TABLE if NOT EXISTS sessions (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    key TEXT NOT NULL,
+    expires_at TEXT NOT NULL
+);
+
 CREATE TABLE if NOT EXISTS tickets (
     id INTEGER PRIMARY KEY,
     status TEXT,
@@ -40,4 +47,8 @@ ticket_id INTEGET NOT NULL
 `);
 
 // seeding
+db.exec(`
+    INSERT INTO users (email, password, is_verified) VALUES ('12@12', '$2b$10$9PdN3K.HzkKYBPwDm5C7X.KW9.zqgJUuOsBXQOGCBHDrnSaoRjrGy', '1');
+    INSERT INTO tickets (status, priority, title, body) VALUES ('backlog', 'low', 'render kanban board', 'work in progress');
+`)
 // DML

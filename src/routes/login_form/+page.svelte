@@ -11,9 +11,10 @@
 	method="POST"
 	use:enhance={() => {
 		return async ({ result }) => {
+			console.log(result);
 			if (result.type === 'success') {
-				goto('/kanban_page');
 				toastr.success('Login successful!');
+				goto('/kanban_page');
 			} else {
 				toastr.error(result.type === 'error' ? result.error.message : result.data?.message);
 			}
@@ -34,6 +35,7 @@
 	<button type="submit"> Login </button>
 
 	<div class="links">
+		<button on:click={() => goto('/kanban_page')}>kanban page</button>
 		<button on:click={() => goto('/signup')}>Create an account</button>
 		<button on:click={() => goto('/forgot_password')}>Forgot password?</button>
 	</div>

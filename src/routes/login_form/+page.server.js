@@ -1,6 +1,7 @@
 import db from '../../../database/connection.js';
 import bcrypt from 'bcrypt';
 import { fail } from '@sveltejs/kit';
+import { v4 as uuidv4, v6 as uuidv6 } from 'uuid';
 
 export const actions = {
     default: async ({ request, cookies }) => {
@@ -12,7 +13,7 @@ export const actions = {
 
         const rows = await db.all('SELECT * FROM users WHERE email = ?', [email]);
 
-        console.log("DB rows:", rows);
+        console.log("DB rows login form:", rows);
 
         if (rows.length === 0) {
             return fail(401, { message: 'Invalid email or password' });
@@ -30,7 +31,17 @@ export const actions = {
         console.log("Stored password:", user.password);
         console.log("Compare:", await bcrypt.compare(password, user.password));
 
-        cookies.set('session_id', user.id, {
+        const session_id = uuidv4();
+        console.log(session_id)
+
+        await db.run('INSERT INTO sessions (user_id, key, expires_at) VALUES (?, ?, ?)', [user.id, session_id, ""])
+
+        // skal oprette en ny random sesstion key
+        // gem session key i en database 
+        // set cookie med den gamte sesstion key
+
+
+        cookies.set('session_id', session_id, {
             path: '/',
             httpOnly: true,
             sameSite: 'strict',

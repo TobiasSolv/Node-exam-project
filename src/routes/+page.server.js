@@ -5,7 +5,7 @@ export const handle = async ({ event, resolve }) => {
 
     if (sessionId) {
         const rows = await db.all('SELECT id, email FROM users WHERE id = ?', [sessionId]);
-
+        console.log(rows)
         if (rows.length > 0) {
             event.locals.user = rows[0];
         } else {
@@ -13,7 +13,9 @@ export const handle = async ({ event, resolve }) => {
         }
     } else {
         event.locals.user = null;
+        console.log("no session id")
     }
 
     return resolve(event);
+
 };
