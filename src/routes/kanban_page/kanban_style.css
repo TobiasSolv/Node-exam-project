@@ -1,0 +1,196 @@
+/* Global Layout */
+:root {
+    --bg-img: url("https://manybackgrounds.com/images/hd/mountain-ridge-stones-bvdeymqh87snervi.jpg");
+    --text: #fff;
+    --surface: rgba(255, 255, 255, 0.06);
+    --stroke: rgba(225, 255, 255, 0.12);
+    --maxw: 1600px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: radial-gradient(1200px 600px at 80% -10%, rgba(255, 255, 255, 0.25), transparent 60%),
+        linear-gradient(180deg, rgba(11, 14, 19, 0.4), rgba(11, 14, 19, 0.85)), var(--bg-img) center/cover no-repeat fixed;
+    min-height: 100vh;
+    color: var(--text);
+    line-height: 1.45;
+    overflow-x: hidden;
+}
+
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(8, 10, 14, 0.55), rgba(8, 10, 14, 0.35));
+    padding: clamp(0.5rem, 1vw + 0.2rem, 1rem) clamp(1rem, 2vw + 0.5rem, 3rem);
+    border-bottom: 1px solid var(--stroke);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+}
+
+.nav-inner {
+    max-width: var(--maxw);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text);
+    text-decoration: none;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 700;
+}
+
+.logo-img {
+    width: clamp(48px, 4vw, 100px);
+    height: clamp(48px, 4vw, 100px);
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 1vw, 1.5rem);
+    list-style: none;
+}
+
+.menu a {
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    font-size: clamp(0.9rem, 0.9vw, 1.05rem);
+    font-weight: 500;
+    color: var(--text);
+    transition: 0.25s;
+}
+
+.menu a:hover {
+    text-shadow: 0 0 10px var(--text);
+}
+
+.nav-btn a {
+    color: var(--text);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--stroke);
+    border-radius: 8px;
+}
+
+/* Board Container */
+.board {
+    width: 100%;
+    max-width: 1600px;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.header h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.logout-btn {
+    background: #ff4d6d;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.logout-btn:hover {
+    background: #ff1f4a;
+    transform: translateY(-2px);
+}
+
+/* User Info */
+.user {
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+/* Kanban Wrapper */
+.wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+/* Columns */
+.kanban-column {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    padding: 1rem;
+    height: fit-content;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.kanban-column h2 {
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    padding-bottom: 0.3rem;
+}
+
+/* Kanban Items */
+.kanban-item {
+    list-style: none;
+    background: #ffffff18;
+    padding: 0.9rem;
+    border-radius: 14px;
+    margin-bottom: 0.7rem;
+    line-height: 1.4;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+.kanban-item:hover {
+    background: #ffffff25;
+    transform: translateY(-3px);
+    border-color: #ffffff40;
+}
+
+/* Add Button */
+a[href="/ticket_page"] {
+    margin-top: 1.5rem;
+    display: inline-block;
+    background: #15d1c8;
+    padding: 0.7rem 1.1rem;
+    border-radius: 14px;
+    color: #000;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+a[href="/ticket_page"]:hover {
+    background: #0fb1aa;
+    transform: translateY(-2px);
+}
+
+.kanban-column.drag-over {
+    background: #ffffff30;
+    outline: 2px dashed #fff;
+}

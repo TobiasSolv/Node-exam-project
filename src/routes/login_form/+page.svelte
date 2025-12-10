@@ -35,8 +35,8 @@
 	<button type="submit"> Login </button>
 
 	<div class="links">
-		<button on:click={() => goto('/kanban_page')}>kanban page</button>
-		<button on:click={() => goto('/signup')}>Create an account</button>
-		<button on:click={() => goto('/forgot_password')}>Forgot password?</button>
+		<a href="/kanban_page">kanban page</a>
+		<a href="/signup">Create an account</a>
+		<a href="/forgot_password">Forgot password?</a>
 	</div>
 </form>
