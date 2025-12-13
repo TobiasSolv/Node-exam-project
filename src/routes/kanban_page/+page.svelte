@@ -62,14 +62,14 @@
 			<ul class="menu">
 				<li><a href="/front_page">Home</a></li>
 				<li><a href="/kanban_page">Kanban</a></li>
-				<li><a href="#">About</a></li>
-				<li><a href="#">Contact</a></li>
+				<li><a href="/about_page">About</a></li>
+				<li><a href="/contact_page">Contact</a></li>
 			</ul>
 			<ul class="menu">
 				<!-- <button class="logout-btn">Logout</button> -->
 				<p class="menu">Logged in as: <strong>{data.user}</strong></p>
 				<li class="nav-btn">
-					<a href="#" class="btn">logout</a>
+					<button type="submit" name="logout" class="btn logout-btn">logout</button>
 				</li>
 			</ul>
 		</div>
@@ -88,7 +88,11 @@
 				<h2>{status}</h2>
 				<ul>
 					{#each board[status] as ticket}
-						<li class="kanban-item" draggable="true" on:dragstart={() => handleDragStart(ticket)}>
+						<li
+							class="kanban-item {ticket.priority}"
+							draggable="true"
+							on:dragstart={() => handleDragStart(ticket)}
+						>
 							{ticket.title} <br />
 							Priority: {ticket.priority}
 						</li>
@@ -97,5 +101,8 @@
 			</div>
 		{/each}
 	</div>
-	<a href="/ticket_page">Add</a>
+
+	<div class="add-btn-wrapper">
+		<a class="add-btn" href="/ticket_page">Add</a>
+	</div>
 </form>

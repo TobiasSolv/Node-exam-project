@@ -1,5 +1,5 @@
 <script>
-	import LoginForm from './login_form/+page.svelte';
+	import LoginForm from './front_page/+page.svelte';
 	export let form;
 </script>
 

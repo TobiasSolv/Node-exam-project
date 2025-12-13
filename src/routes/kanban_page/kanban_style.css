@@ -58,6 +58,7 @@ body {
     height: clamp(48px, 4vw, 100px);
 }
 
+/* under nav */
 .menu {
     display: flex;
     align-items: center;
@@ -65,26 +66,20 @@ body {
     list-style: none;
 }
 
-.menu a {
+/* .menu a {
     text-decoration: none;
     padding: 0.5rem 0.75rem;
     font-size: clamp(0.9rem, 0.9vw, 1.05rem);
     font-weight: 500;
     color: var(--text);
     transition: 0.25s;
-}
+} */
 
 .menu a:hover {
     text-shadow: 0 0 10px var(--text);
 }
 
-.nav-btn a {
-    color: var(--text);
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--stroke);
-    border-radius: 8px;
-}
+
 
 /* Board Container */
 .board {
@@ -105,20 +100,23 @@ body {
     font-weight: 600;
 }
 
+/* logout button */
+
 .logout-btn {
-    background: #ff4d6d;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 12px;
-    color: white;
-    font-weight: 600;
+    background: none;
+    border: 1px solid var(--stroke);
+    color: var(--text);
+    padding: 0.6rem 1.1rem;
+    border-radius: 8px;
+    font-size: clamp(0.9rem, 0.9vw, 1.05rem);
+    font-weight: 500;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.25s;
 }
 
 .logout-btn:hover {
-    background: #ff1f4a;
-    transform: translateY(-2px);
+    text-shadow: 0 0 10px var(--text);
+    border-color: rgba(255, 255, 255, 0.35);
 }
 
 /* User Info */
@@ -156,41 +154,121 @@ body {
 /* Kanban Items */
 .kanban-item {
     list-style: none;
-    background: #ffffff18;
+    background: #7c7c7c;
     padding: 0.9rem;
-    border-radius: 14px;
+    border-radius: 25px;
     margin-bottom: 0.7rem;
     line-height: 1.4;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: none;
     transition: 0.2s;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.kanban-item:hover {
+.kanban-item::after {
+    content: '';
+    position: absolute;
+    height: 107%;
+    width: 102%;
+    border-radius: 25px;
+    z-index: -1;
+}
+
+/* .kanban-item:hover {
     background: #ffffff25;
     transform: translateY(-3px);
     border-color: #ffffff40;
+} */
+
+/* LOW PRIORITY — green gradient */
+.kanban-item.low::after {
+    content: '';
+
+    height: 107%;
+    width: 102%;
+    border-radius: 25px;
+    background-image: linear-gradient(to bottom right, #00ff88, #2f5cbd);
+    z-index: -1;
 }
 
-/* Add Button */
-a[href="/ticket_page"] {
-    margin-top: 1.5rem;
-    display: inline-block;
-    background: #15d1c8;
-    padding: 0.7rem 1.1rem;
-    border-radius: 14px;
-    color: #000;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.2s;
+.kanban-item.low:hover {
+    z-index: 0;
+    box-shadow: 40px 0 100px #00ff886e, -40px 0 100px #2f5cbd73;
 }
 
-a[href="/ticket_page"]:hover {
-    background: #0fb1aa;
-    transform: translateY(-2px);
+/* MEDIUM PRIORITY — yellow/orange gradient */
+.kanban-item.medium::after {
+    content: '';
+
+    height: 107%;
+    width: 102%;
+    border-radius: 25px;
+    background-image: linear-gradient(to bottom right, #eaff00, #cd5804);
+    z-index: -1;
+}
+
+.kanban-item.medium:hover {
+    z-index: 0;
+    box-shadow: 40px 0 100px #eaff007a, -40px 0 100px #cd580474;
+}
+
+/* HIGH PRIORITY — red gradient */
+.kanban-item.high::after {
+    content: '';
+
+    height: 107%;
+    width: 102%;
+    border-radius: 25px;
+    background-image: linear-gradient(to bottom right, #ff1744, #ff028d);
+    z-index: -1;
+}
+
+.kanban-item.high:hover {
+    z-index: 0;
+    box-shadow: 40px 0 100px #ff17457a, -40px 0 100px #ff028d86;
 }
 
 .kanban-column.drag-over {
     background: #ffffff30;
     outline: 2px dashed #fff;
+}
+
+/* Add Button */
+.add-btn {
+    padding: 1em 2em;
+    background-color: #7c7c7c;
+    border: none;
+    color: #f0f0f0;
+    border-radius: 1000px;
+    font-family: sans-serif;
+    position: relative;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-btn::after {
+    content: '';
+    position: absolute;
+    height: 107%;
+    width: 105%;
+    border-radius: 1000px;
+    background-image: linear-gradient(to bottom right, #008cff, #e100ff);
+    z-index: -1;
+}
+
+.add-btn:hover {
+    z-index: 0;
+    box-shadow: 40px 0 100px #008cff, -40px 0 100px #e100ff;
+}
+
+.add-btn-wrapper {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: left;
 }

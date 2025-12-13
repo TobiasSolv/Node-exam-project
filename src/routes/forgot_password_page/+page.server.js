@@ -16,7 +16,7 @@ export const actions = {
             return fail(400, { message: "Email not found" });
         }
 
-        const resetLink = `${url.origin}/reset_password?email=${encodeURIComponent(email)}`;
+        const resetLink = `${url.origin}/reset_password_page?email=${encodeURIComponent(email)}`;
 
         const info = await transporter.sendMail({
             from: '"Support" <noreply@example.com>',

@@ -5,7 +5,7 @@ import { goto } from '$app/navigation';
 export const actions = {
     logout: async ({ cookies }) => {
         cookies.delete('session_id', { path: '/' });
-        throw redirect(302, '/login_form');
+        throw redirect(302, '/front_page');
     },
     move: async ({ request }) => {
         const form = await request.formData();
