@@ -183,17 +183,25 @@ body {
     transform: translateY(-2px);
 }
 
-.popover-menu a {
+/* popover menu */
+.popover-menu button {
+    display: block;
+    width: 100%;
+    text-align: left;
     text-decoration: none;
     padding: .7em 1.5em;
+    border: none;
     border-radius: .25em;
     color: black;
+    background: transparent;
+    cursor: pointer;
+    font: inherit;
+    transition: background 0.2s;
 }
 
-.popover-menu a:hover {
+.popover-menu button:hover {
     background: #eee;
 }
-
 
 .popover-menu:popover-open {
     display: grid;
@@ -206,7 +214,24 @@ body {
     padding: .5em;
     background: white;
     position: absolute;
-    position-anchor: menu-button;
+}
+
+#status-button {
+    anchor-name: --status-anchor;
+}
+
+#status-menu {
+    position-anchor: --status-anchor;
+    top: anchor(bottom);
+    left: anchor(left);
+}
+
+#priority-button {
+    anchor-name: --priority-anchor;
+}
+
+#priority-menu {
+    position-anchor: --priority-anchor;
     top: anchor(bottom);
     left: anchor(left);
 }

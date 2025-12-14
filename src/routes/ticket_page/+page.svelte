@@ -1,5 +1,22 @@
 <script>
 	import './ticket_page.css';
+
+	let statusValue = '';
+	let priorityValue = '';
+	let statusLabel = 'Status';
+	let priorityLabel = 'Priority';
+
+	function selectStatus(value, label) {
+		statusValue = value;
+		statusLabel = label;
+		document.getElementById('status-menu')?.hidePopover();
+	}
+
+	function selectPriority(value, label) {
+		priorityValue = value;
+		priorityLabel = label;
+		document.getElementById('priority-menu')?.hidePopover();
+	}
 </script>
 
 <header class="nav">
@@ -28,38 +45,37 @@
 
 		<section class="contact-form-section">
 			<!-- Status button + menu -->
-			<button id="status-button" popovertarget="status-menu" class="contact-btn"> Status </button>
+			<button type="button" id="status-button" popovertarget="status-menu" class="contact-btn">
+				{statusLabel}
+			</button>
 
 			<div id="status-menu" popover class="popover-menu">
-				<a href="#">Backlog</a>
-				<a href="#">Ready</a>
-				<a href="#">In progress</a>
-				<a href="#">In review</a>
-				<a href="#">Blocked</a>
-				<a href="#">Done</a>
+				<button type="button" on:click={() => selectStatus('backlog', 'Backlog')}>Backlog</button>
+				<button type="button" on:click={() => selectStatus('ready', 'Ready')}>Ready</button>
+				<button type="button" on:click={() => selectStatus('in progress', 'In progress')}
+					>In progress</button
+				>
+				<button type="button" on:click={() => selectStatus('in review', 'In review')}
+					>In review</button
+				>
+				<button type="button" on:click={() => selectStatus('blocked', 'Blocked')}>Blocked</button>
+				<button type="button" on:click={() => selectStatus('done', 'Done')}>Done</button>
 			</div>
 
 			<!-- Priority button + menu -->
-			<button id="priority-button" popovertarget="priority-menu" class="contact-btn">
-				Priority
+			<button type="button" id="priority-button" popovertarget="priority-menu" class="contact-btn">
+				{priorityLabel}
 			</button>
 
 			<div id="priority-menu" popover class="popover-menu">
-				<a href="#">Low</a>
-				<a href="#">Medium</a>
-				<a href="#">High</a>
+				<button type="button" on:click={() => selectPriority('low', 'Low')}>Low</button>
+				<button type="button" on:click={() => selectPriority('medium', 'Medium')}>Medium</button>
+				<button type="button" on:click={() => selectPriority('high', 'High')}>High</button>
 			</div>
 
 			<form method="POST" action="?/add" class="contact-form">
-				<label>
-					Status
-					<input name="status" type="text" placeholder="Status" />
-				</label>
-
-				<label>
-					Priority
-					<input name="priority" type="text" placeholder="Priority" />
-				</label>
+				<input type="hidden" name="status" value={statusValue} required />
+				<input type="hidden" name="priority" value={priorityValue} required />
 
 				<label>
 					Title

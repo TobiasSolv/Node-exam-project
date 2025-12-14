@@ -1,55 +1,19 @@
 <script>
 	import { goto } from '$app/navigation';
 	import './kanban_style.css';
+	import { draggable, dropzone } from '$lib/drag_and_drop.js';
+	import { board } from '$lib/stores/kanban_board.js';
 
 	let { data } = $props();
 
 	const columns = ['backlog', 'ready', 'in progress', 'in review', 'blocked', 'done'];
-	const board = {};
 
-	columns.forEach((c) => (board[c] = []));
-	data.tickets.forEach((ticket) => board[ticket.status].push(ticket));
+	// Initialize board ONCE
+	const initialBoard = {};
+	columns.forEach((c) => (initialBoard[c] = []));
+	data.tickets.forEach((ticket) => initialBoard[ticket.status].push(ticket));
 
-	let draggedTicket = null;
-
-	function handleDragStart(ticket) {
-		draggedTicket = ticket;
-	}
-
-	function handleDragOver(event) {
-		event.preventDefault(); // Allows drop
-	}
-
-	async function handleDrop(status) {
-		if (!draggedTicket) return;
-
-		const oldStatus = draggedTicket.status;
-
-		// Update UI instantly
-		board[oldStatus] = board[oldStatus].filter((t) => t.id !== draggedTicket.id);
-		draggedTicket.status = status;
-		board[status] = [...board[status], draggedTicket];
-
-		// Send update to backend
-		const formData = new FormData();
-		formData.append('id', draggedTicket.id);
-		formData.append('status', status);
-
-		await fetch('?/move', {
-			method: 'POST',
-			body: formData
-		});
-
-		draggedTicket = null;
-	}
-
-	function handleDragEnter(event) {
-		event.currentTarget.classList.add('drag-over');
-	}
-
-	function handleDragLeave(event) {
-		event.currentTarget.classList.remove('drag-over');
-	}
+	board.set(initialBoard);
 </script>
 
 <form method="POST" action="?/logout" class="board">
@@ -78,21 +42,41 @@
 	<div class="wrapper">
 		{#each columns as status}
 			<div
-				role="region"
 				class="kanban-column"
-				on:dragover={handleDragOver}
-				on:drop={() => handleDrop(status)}
-				on:dragenter={handleDragEnter}
-				on:dragleave={handleDragLeave}
+				use:dropzone={{
+					on_dropzone: async (payload) => {
+						const ticket = JSON.parse(payload);
+
+						board.update((b) => {
+							// Remove from old column
+							b[ticket.status] = b[ticket.status].filter((t) => t.id !== ticket.id);
+
+							// Update ticket status
+							ticket.status = status;
+
+							// Add to new column
+							b[status] = [...b[status], ticket];
+
+							return { ...b }; // 🔥 trigger reactivity
+						});
+
+						// Persist to backend
+						const formData = new FormData();
+						formData.append('id', ticket.id);
+						formData.append('status', status);
+
+						await fetch('?/move', {
+							method: 'POST',
+							body: formData
+						});
+					}
+				}}
 			>
 				<h2>{status}</h2>
+
 				<ul>
-					{#each board[status] as ticket}
-						<li
-							class="kanban-item {ticket.priority}"
-							draggable="true"
-							on:dragstart={() => handleDragStart(ticket)}
-						>
+					{#each $board[status] as ticket}
+						<li class="kanban-item {ticket.priority}" use:draggable={JSON.stringify(ticket)}>
 							{ticket.title} <br />
 							Priority: {ticket.priority}
 						</li>

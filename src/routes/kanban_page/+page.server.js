@@ -2,6 +2,7 @@ import { redirect } from '@sveltejs/kit';
 import db from '../../../database/connection.js';
 import { goto } from '$app/navigation';
 
+
 export const actions = {
     logout: async ({ cookies }) => {
         cookies.delete('session_id', { path: '/' });
