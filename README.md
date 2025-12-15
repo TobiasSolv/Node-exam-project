@@ -90,7 +90,7 @@ The project demonstrates modern full‑stack development practices including API
 
 Make sure you have the following installed:
 
-* **Node.js** (recommended: version specified in `.nvmrc` if present)
+* **Node.js** (recommended: version specified in `.nvmrc`)
 * **npm** (comes with Node.js)
 
 ### Setup
