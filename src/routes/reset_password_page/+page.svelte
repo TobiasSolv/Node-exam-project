@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import './reset_password_page.css';
+	import img from '$lib/assets/logo of fox 2.png';
 
 	export let data;
 	let password = '';
@@ -9,7 +10,7 @@
 <header class="nav">
 	<div class="nav-inner">
 		<a href="#" class="brand">
-			<img src="src/lib/logo of fox 2.png" alt="logo" class="logo-img" />
+			<img src={img} alt="logo" class="logo-img" />
 			<span>Kanban</span>
 		</a>
 	</div>

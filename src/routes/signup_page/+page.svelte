@@ -3,18 +3,19 @@
 	import { enhance } from '$app/forms';
 	import toastr from 'toastr';
 	import './signup_page.css';
+	import img from '$lib/assets/logo of fox 2.png';
 </script>
 
 <header class="nav">
 	<div class="nav-inner">
 		<a href="/" class="brand">
-			<img src="src/lib/logo of fox 2.png" alt="logo" class="logo-img" />
+			<img src={img} alt="logo" class="logo-img" />
 			<span>Kanban</span>
 		</a>
 
 		<ul class="menu">
 			<li><a href="/front_page">Home</a></li>
-			<li><a href="/kanban_page">Kanban</a></li>
+			<li><a href="/board_page">Board</a></li>
 			<li><a href="/about_page">About</a></li>
 			<li><a href="/contact_page">Contact</a></li>
 		</ul>

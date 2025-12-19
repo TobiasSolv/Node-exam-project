@@ -1,5 +1,9 @@
 <script>
 	import './ticket_page.css';
+	import { page } from '$app/state';
+	import img from '$lib/assets/logo of fox 2.png';
+
+	let board_id = page.params.board_id;
 
 	let statusValue = '';
 	let priorityValue = '';
@@ -22,13 +26,13 @@
 <header class="nav">
 	<div class="nav-inner">
 		<a href="/" class="brand">
-			<img src="src/lib/logo of fox 2.png" alt="logo" class="logo-img" />
+			<img src={img} alt="logo" class="logo-img" />
 			<span>Kanban</span>
 		</a>
 
 		<ul class="menu">
 			<li><a href="/front_page">Home</a></li>
-			<li><a href="/kanban_page">Kanban</a></li>
+			<li><a href="/board_page">Board</a></li>
 			<li><a href="/about_page">About</a></li>
 			<li><a href="/contact_page">Contact</a></li>
 		</ul>

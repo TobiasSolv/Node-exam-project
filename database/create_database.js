@@ -13,26 +13,45 @@ use plural for tables
 
 db.exec(`DROP TABLE IF EXISTS users;`);
 db.exec(`DROP TABLE IF EXISTS sessions;`);
+db.exec(`DROP TABLE IF EXISTS boards;`);
 db.exec(`DROP TABLE IF EXISTS tickets;`);
 db.exec(`DROP TABLE IF EXISTS ticket_comments;`);
+db.exec(`DROP TABLE IF EXISTS jwt_token_logs;`);
 
 // DDL
 db.exec(`
 CREATE TABLE if NOT EXISTS users (
     id INTEGER PRIMARY KEY,
+    external_id TEXT NOT NULL, -- uuid
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     is_verified INTEGER NOT NULL DEFAULT 0
 );
+CREATE TABLE jwt_token_logs (
+    id INTERGER PRIMARY KEY, 
+    external_id TEXT NOT NULL, -- uuid
+    token_value TEXT NOT NULL,  -- The JWT itself. Consider security implications of logging the full token.
+    issued_at TEXT NOT NULL, 
+    expires_at TEXT NOT NULL, 
+    logged_at TEXT NOT NULL, 
+    additional_data TEXT -- Optional: Store context like IP address, user agent, etc.
+);
 CREATE TABLE if NOT EXISTS sessions (
     id INTEGER PRIMARY KEY,
     user_id INTEGER NOT NULL,
-    key TEXT NOT NULL,
+    key TEXT NOT NULL, -- uuid
     expires_at TEXT NOT NULL
+);
+
+CREATE TABLE if NOT EXISTS boards (
+id INTEGER PRIMARY KEY,
+name TEXT NOT NULL,
+description TEXT
 );
 
 CREATE TABLE if NOT EXISTS tickets (
     id INTEGER PRIMARY KEY,
+    board_id INTEGER,
     status TEXT,
     priority TEXT,
     title TEXT,
@@ -51,16 +70,17 @@ ticket_id INTEGET NOT NULL
 
 // seeding
 db.exec(`
-    INSERT INTO users (email, password, is_verified) VALUES ('12@12', '$2b$10$9PdN3K.HzkKYBPwDm5C7X.KW9.zqgJUuOsBXQOGCBHDrnSaoRjrGy', '1');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('in progress', 'low', 'render kanban board', 'work in progress 1');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('ready', 'low', 'change ticket database field types', 'work in progress 2');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('backlog', 'low medium', 'change ticket status on website', 'this should work as a dropdown and as drag and drop 3');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('backlog', 'high', 'change title and body on website', 'this should work as a edit button on the ticket page 4');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('ready', 'high', 'make kanban page pretty useing css', 'there should be boxes 5');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('ready', 'high', 'create ticket page', 'it should be svelte page and the auth should be copied from kanban page 6');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('backlog', 'high', 'create ticket modal', 'it should be svelte modal 7');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('ready', 'medium', 'fix so failded login is accesse denied', 'it should be for kanban page, logged in page and ticket page 8');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('backlog', 'high', 'change session cookies to JWT', 'work in progress 9');
-    INSERT INTO tickets (status, priority, title, body) VALUES ('backlog', 'high', 'password reset is insecure', 'missing reset token database tabel 10');
+    INSERT INTO users (external_id, email, password, is_verified) VALUES ('aec8114f-4d0a-480a-903f-c43a3a2fc3c6','12@12', '$2b$10$9PdN3K.HzkKYBPwDm5C7X.KW9.zqgJUuOsBXQOGCBHDrnSaoRjrGy', '1');
+    INSERT INTO boards (id, name, description) VALUES (1, 'fisrt board', 'test');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'in progress', 'low', 'render kanban board', 'work in progress 1');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'ready', 'low', 'change ticket database field types', 'work in progress 2');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'backlog', 'low medium', 'change ticket status on website', 'this should work as a dropdown and as drag and drop 3');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'backlog', 'high', 'change title and body on website', 'this should work as a edit button on the ticket page 4');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'ready', 'high', 'make kanban page pretty useing css', 'there should be boxes 5');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'ready', 'high', 'create ticket page', 'it should be svelte page and the auth should be copied from kanban page 6');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'backlog', 'high', 'create ticket modal', 'it should be svelte modal 7');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'ready', 'medium', 'fix so failded login is accesse denied', 'it should be for kanban page, logged in page and ticket page 8');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'backlog', 'high', 'change session cookies to JWT', 'work in progress 9');
+    INSERT INTO tickets (board_id, status, priority, title, body) VALUES (1, 'backlog', 'high', 'password reset is insecure', 'missing reset token database tabel 10');
 `)
 // DML

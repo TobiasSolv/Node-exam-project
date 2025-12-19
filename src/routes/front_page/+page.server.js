@@ -36,10 +36,6 @@ export const actions = {
 
         await db.run('INSERT INTO sessions (user_id, key, expires_at) VALUES (?, ?, ?)', [user.id, session_id, ""])
 
-        // skal oprette en ny random sesstion key
-        // gem session key i en database 
-        // set cookie med den gamte sesstion key
-
 
         cookies.set('session_id', session_id, {
             path: '/',
@@ -54,6 +50,3 @@ export const actions = {
         };
     }
 };
-
-
-

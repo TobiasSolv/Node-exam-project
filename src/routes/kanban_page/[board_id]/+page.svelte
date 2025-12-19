@@ -3,6 +3,10 @@
 	import './kanban_style.css';
 	import { draggable, dropzone } from '$lib/drag_and_drop.js';
 	import { board } from '$lib/stores/kanban_board.js';
+	import { page } from '$app/state';
+	import img from '$lib/assets/logo of fox 2.png';
+
+	let board_id = page.params.board_id;
 
 	let { data } = $props();
 
@@ -16,29 +20,31 @@
 	board.set(initialBoard);
 </script>
 
-<form method="POST" action="?/logout" class="board">
+<form method="POST" action="?/logout">
 	<header class="nav">
 		<div class="nav-inner">
 			<a href="/" class="brand">
-				<img src="src\lib\logo of fox 2.png" alt="logo" class="logo-img" />
+				<img src={img} alt="logo" class="logo-img" />
 				<span>Kanban</span>
 			</a>
 			<ul class="menu">
 				<li><a href="/front_page">Home</a></li>
-				<li><a href="/kanban_page">Kanban</a></li>
+				<li><a href="/board_page">Board</a></li>
 				<li><a href="/about_page">About</a></li>
 				<li><a href="/contact_page">Contact</a></li>
 			</ul>
 			<ul class="menu">
 				<!-- <button class="logout-btn">Logout</button> -->
-				<p class="menu">Logged in as: <strong>{data.user}</strong></p>
+				<p class="menu">Logged in as: <strong>{data.user.email}</strong></p>
 				<li class="nav-btn">
 					<button type="submit" name="logout" class="btn logout-btn">logout</button>
 				</li>
 			</ul>
 		</div>
 	</header>
+</form>
 
+<form method="POST" class="board">
 	<div class="wrapper">
 		{#each columns as status}
 			<div
@@ -87,6 +93,6 @@
 	</div>
 
 	<div class="add-btn-wrapper">
-		<a class="add-btn" href="/ticket_page">Add</a>
+		<a class="add-btn" href="/ticket_page/{board_id}">Add ticket</a>
 	</div>
 </form>

@@ -5,6 +5,7 @@
 	import { enhance } from '$app/forms';
 	import toastr from 'toastr';
 	import { onMount } from 'svelte';
+	import img from '$lib/assets/logo of fox 2.png';
 
 	let email = '';
 	let password = '';
@@ -29,46 +30,47 @@
 <header class="nav">
 	<div class="nav-inner">
 		<a href="/" class="brand">
-			<img src="src\lib\logo of fox 2.png" alt="logo" class="logo-img" />
+			<img src={img} alt="logo" class="logo-img" />
 			<span>Kanban</span>
 		</a>
 
 		<ul class="menu">
 			<li><a href="/front_page">Home</a></li>
-			<li><a href="/kanban_page">Kanban</a></li>
+			<li><a href="/board_page">Board</a></li>
 			<li><a href="/about_page">About</a></li>
 			<li><a href="/contact_page">Contact</a></li>
+			<li>
+				<form
+					method="POST"
+					use:enhance={() => {
+						return async ({ result }) => {
+							console.log(result);
+							if (result.type === 'success') {
+								toastr.success('Login successful!');
+								goto('/board_page');
+							} else {
+								toastr.error(result.type === 'error' ? result.error.message : result.data?.message);
+							}
+						};
+					}}
+					class="auth-form"
+				>
+					<input name="email" type="email" placeholder="Email..." bind:value={email} required />
+					<input
+						name="password"
+						type="password"
+						placeholder="Password..."
+						bind:value={password}
+						required
+					/>
 
-			<form
-				method="POST"
-				use:enhance={() => {
-					return async ({ result }) => {
-						console.log(result);
-						if (result.type === 'success') {
-							toastr.success('Login successful!');
-							goto('/kanban_page');
-						} else {
-							toastr.error(result.type === 'error' ? result.error.message : result.data?.message);
-						}
-					};
-				}}
-				class="auth-form"
-			>
-				<input name="email" type="email" placeholder="Email..." bind:value={email} required />
-				<input
-					name="password"
-					type="password"
-					placeholder="Password..."
-					bind:value={password}
-					required
-				/>
-
-				<button type="submit" class="btn">Login</button>
-			</form>
-			<div class="links">
+					<button type="submit" class="btn">Login</button>
+				</form>
+			</li>
+			<li class="links">
 				<a href="/signup_page" class="btn">Signup</a>
 				<a href="/forgot_password_page" class="btn">Forgot password?</a>
-			</div>
+			</li>
 		</ul>
 	</div>
 </header>

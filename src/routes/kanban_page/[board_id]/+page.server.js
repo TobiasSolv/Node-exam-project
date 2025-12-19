@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import db from '../../../database/connection.js';
+import db from '../../../../database/connection.js';
 import { goto } from '$app/navigation';
 
 
@@ -19,13 +19,15 @@ export const actions = {
     }
 };
 
-export const load = async ({ locals, cookies }) => {
+export const load = async ({ locals, cookies, params }) => {
     const sessionId = cookies.get('session_id');
     console.log(sessionId)
 
     const rows = await db.all('SELECT users.* FROM sessions LEFT JOIN users ON sessions.user_id = users.id WHERE sessions.key = ?', [sessionId]);
 
-    const tickets = await db.all('SELECT * FROM tickets', []);
+    const boards = await db.all('SELECT * FROM boards WHERE id = ?', [params.board_id]);
+
+    const tickets = await db.all('SELECT * FROM tickets WHERE board_id = ?', [params.board_id]);
 
     console.log("DB rows kanban page:", rows);
     console.log("tickests: ", tickets)
@@ -34,7 +36,12 @@ export const load = async ({ locals, cookies }) => {
         // return fail(401, { message: 'Invalid email or password' });
     }
 
+    if (boards.length === 0) {
+        // return fail(401, { message: 'Invalid board' });
+    }
+
     const user = rows[0];
+    const board = boards[0]
 
 
 
@@ -47,6 +54,7 @@ export const load = async ({ locals, cookies }) => {
 
     return {
         user,
+        board,
         tickets
     };
 };
