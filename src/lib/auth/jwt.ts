@@ -42,9 +42,8 @@ export const verifyToken = (token: string): TokenResponse => {
         return {
             success: true,
             user: {
-                userId: decoded.userId,
+                external_id: decoded.external_id,
                 email: decoded.email,
-                role: decoded.role,
             },
         };
     } catch (error) {

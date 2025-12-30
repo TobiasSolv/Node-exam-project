@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import './reset_password_page.css';
-	import img from '$lib/assets/logo of fox 2.png';
+	import img from '$lib/assets/logo_of_fox_2.png';
 
 	export let data;
 	let password = '';

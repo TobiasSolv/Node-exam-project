@@ -11,8 +11,6 @@ export const actions = {
         const email = formData.get('email');
         const password = formData.get('password')?.toString();
 
-        console.log("SERVER RECEIVED:", email, password);
-
         if (email === null || email === "") {
             return fail(409, { message: 'Email already registered' });
         }
@@ -45,16 +43,16 @@ export const actions = {
         //cookies.set("access_token", accessToken);
 
         // Log token to database
-        if (external_id) {
-            // We use a non-awaited promise to avoid blocking
-            logToken(accessToken, external_id).catch((err) => {
-                console.error("Failed to log token:", err);
-            });
-        } else {
-            console.error(
-                "Cannot log token: external_id is null or undefined"
-            );
-        }
+        // if (external_id) {
+        //     // We use a non-awaited promise to avoid blocking
+        //     logToken(accessToken, external_id).catch((err) => {
+        //         console.error("Failed to log token:", err);
+        //     });
+        // } else {
+        //     console.error(
+        //         "Cannot log token: external_id is null or undefined"
+        //     );
+        // }
 
         try {
             await db.run('INSERT INTO users (external_id, email, password) VALUES (?, ?, ?)', [external_id, email, hashedPassword]);

@@ -8,8 +8,6 @@ export const actions = {
         const form = await request.formData();
         const email = form.get("email");
 
-        console.log("RESET REQUEST:", email);
-
         const rows = await db.all("SELECT id FROM users WHERE email = ?", [email]);
 
         if (rows.length === 0) {

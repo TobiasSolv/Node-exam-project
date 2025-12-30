@@ -1,6 +1,6 @@
 <script>
 	import './board_page.css';
-	import img from '$lib/assets/logo of fox 2.png';
+	import img from '$lib/assets/logo_of_fox_2.png';
 
 	let { data } = $props();
 	let showForm = $state(false);

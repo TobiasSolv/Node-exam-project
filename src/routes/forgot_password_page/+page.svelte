@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import toastr from 'toastr';
 	import './forgot_password_page.css';
-	import img from '$lib/assets/logo of fox 2.png';
+	import img from '$lib/assets/logo_of_fox_2.png';
 
 	let email = '';
 </script>

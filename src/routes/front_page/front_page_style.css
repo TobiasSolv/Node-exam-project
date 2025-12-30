@@ -1,20 +1,70 @@
 /* todo objects */
 
 .todo {
-    padding: 1.5em;
-    border-radius: .5em;
-    background-color: transparent;
-    /* translate: -50%;
-    opacity: 0; */
-    scale: 0;
-    transition: 600ms ease;
+    padding: 1.5rem 1.25rem;
+    border-radius: 14px;
+    background: var(--surface);
+    border: 1px solid var(--stroke);
+    backdrop-filter: blur(6px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 2rem 1.5rem;
+
+    scale: 0.85;
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+        transform 600ms ease,
+        opacity 600ms ease,
+        scale 600ms ease,
+        box-shadow 300ms ease;
 }
 
 .todo.show {
     scale: 1;
-    /* opacity: 1;
-    translate: 0; */
+    opacity: 1;
+    transform: translateY(0);
 }
+
+.todo:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+    transform: translateY(-4px);
+}
+
+
+.todo img {
+    width: 25rem;
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
+}
+
+.todo span {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+
+@media (max-width: 600px) {
+    .todo {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .todo::before {
+        display: none;
+    }
+
+    .todo img {
+        width: 180px;
+    }
+}
+
+
 
 /* LOGIN FORM INSIDE NAV */
 .auth-form {

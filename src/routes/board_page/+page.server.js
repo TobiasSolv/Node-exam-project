@@ -3,14 +3,10 @@ import db from '../../../database/connection.js';
 
 export const load = async ({ locals, cookies }) => {
     const sessionId = cookies.get('session_id');
-    console.log(sessionId)
 
     const rows = await db.all('SELECT users.* FROM sessions LEFT JOIN users ON sessions.user_id = users.id WHERE sessions.key = ?', [sessionId]);
 
     const boards = await db.all('SELECT * FROM boards', []);
-
-    console.log("DB rows kanban page:", rows);
-    console.log("tickests: ", boards)
 
     if (rows.length === 0) {
         // return fail(401, { message: 'Invalid email or password' });
