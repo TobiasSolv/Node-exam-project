@@ -1,6 +1,38 @@
-<script>
+<script lang="ts">
 	import './about_page.css';
 	import img from '$lib/assets/logo_of_fox_2.png';
+	import { onMount, onDestroy } from 'svelte';
+
+	let ws: WebSocket;
+	let messages: string[] = [];
+	let messageInput = '';
+
+	onMount(() => {
+		ws = new WebSocket('ws://localhost:3000');
+
+		ws.onmessage = (event) => {
+			messages = [...messages, event.data];
+		};
+
+		ws.onerror = (err) => {
+			console.error('WebSocket error:', err);
+		};
+
+		ws.onclose = () => {
+			console.log('WebSocket closed');
+		};
+	});
+
+	onDestroy(() => {
+		if (ws) ws.close();
+	});
+
+	function sendMessage() {
+		if (messageInput && ws?.readyState === WebSocket.OPEN) {
+			ws.send(messageInput);
+			messageInput = '';
+		}
+	}
 </script>
 
 <header class="nav">
@@ -109,6 +141,25 @@
 				traits of an effective workflow. Just like the fox, Kanban helps you stay agile and
 				confident in the face of changing tasks and priorities.
 			</p>
+		</section>
+
+		<section>
+			<h1>WebSocket Demo (Svelte)</h1>
+
+			<div class="messages">
+				{#each messages as msg}
+					<div class="message">{msg}</div>
+				{/each}
+			</div>
+
+			<input
+				type="text"
+				bind:value={messageInput}
+				placeholder="Enter your message"
+				on:keydown={(e) => e.key === 'Enter' && sendMessage()}
+			/>
+
+			<button on:click={sendMessage}>Send Message</button>
 		</section>
 	</div>
 </main>
