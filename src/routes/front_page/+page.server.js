@@ -26,7 +26,6 @@ export const actions = {
 
         const session_id = uuidv4();
 
-        // TODO make server side sessions expire
         await db.run('INSERT INTO sessions (user_id, key, expires_at) VALUES (?, ?, ?)', [user.id, session_id, ""])
 
         const tokenPayload = {
@@ -43,13 +42,6 @@ export const actions = {
             secure: false,
             maxAge: 60 * 60 * 24
         });
-
-
-        // Set JWT cookie
-        // Todo auth users 
-        //cookies.set("access_token", accessToken);
-
-        //Log token to database
 
         // We use a non-awaited promise to avoid blocking
         logToken(accessToken, user.external_id).catch((err) => {

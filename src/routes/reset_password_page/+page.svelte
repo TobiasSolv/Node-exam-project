@@ -9,10 +9,8 @@
 
 <header class="nav">
 	<div class="nav-inner">
-		<a href="#" class="brand">
-			<img src={img} alt="logo" class="logo-img" />
-			<span>Kanban</span>
-		</a>
+		<img src={img} alt="logo" class="logo-img" />
+		<span class="logo-text">Kanban</span>
 	</div>
 </header>
 

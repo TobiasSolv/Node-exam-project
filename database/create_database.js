@@ -36,12 +36,6 @@ CREATE TABLE jwt_token_logs (
     logged_at TEXT NOT NULL, 
     additional_data TEXT -- Optional: Store context like IP address, user agent, etc.
 );
-CREATE TABLE if NOT EXISTS sessions (
-    id INTEGER PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    key TEXT NOT NULL, -- uuid
-    expires_at TEXT NOT NULL
-);
 
 CREATE TABLE if NOT EXISTS boards (
 id INTEGER PRIMARY KEY,

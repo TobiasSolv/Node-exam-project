@@ -23,6 +23,6 @@ export const actions = {
         // Update DB
         await db.run('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, user.id]);
 
-        throw redirect(302, '/login_form');
+        throw redirect(302, '/front_page');
     }
 };

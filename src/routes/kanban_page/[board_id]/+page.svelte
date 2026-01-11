@@ -1,5 +1,4 @@
 <script>
-	import { goto } from '$app/navigation';
 	import './kanban_style.css';
 	import { draggable, dropzone } from '$lib/drag_and_drop.js';
 	import { board } from '$lib/stores/kanban_board.js';
@@ -12,20 +11,45 @@
 
 	const columns = ['backlog', 'ready', 'in progress', 'in review', 'blocked', 'done'];
 
-	// Initialize board ONCE
+	// Initialize empty board structure
 	const initialBoard = {};
 	columns.forEach((c) => (initialBoard[c] = []));
+
+	// Distribute tickets into columns by status
 	data.tickets.forEach((ticket) => initialBoard[ticket.status].push(ticket));
 
 	board.set(initialBoard);
 
-	async function deleteTicket(id, status) {
-		// Update UI immediately
-		board.update((b) => {
-			b[status] = b[status].filter((t) => t.id !== id);
-			return { ...b };
+	async function handleDrop(payload, newStatus) {
+		const ticket = JSON.parse(payload);
+
+		// Move ticket between columns
+		board.update((board) => {
+			board[ticket.status] = board[ticket.status].filter((t) => t.id !== ticket.id);
+			ticket.status = newStatus;
+			board[newStatus] = [...board[newStatus], ticket];
+			return { ...board };
 		});
 
+		// Persist status change
+		const formData = new FormData();
+		formData.append('id', ticket.id);
+		formData.append('status', newStatus);
+
+		await fetch('?/move', {
+			method: 'POST',
+			body: formData
+		});
+	}
+
+	// Delete a ticket locally and on the backend
+	async function deleteTicket(id, status) {
+		board.update((board) => {
+			board[status] = board[status].filter((t) => t.id !== id);
+			return { ...board };
+		});
+
+		// Persist deletion
 		const formData = new FormData();
 		formData.append('id', id);
 
@@ -35,23 +59,33 @@
 		});
 	}
 
+	// Update selected ticket priority
+	function setPriority(value) {
+		selectedTicket.priority = value;
+		document.getElementById('priority-menu')?.hidePopover();
+	}
+
+	// Modal state
 	let selectedTicket = $state(null);
 	let isModalOpen = $state(false);
 
+	// Open modal
 	function openModal(ticket) {
-		console.log('openModal called', ticket);
-		selectedTicket = { ...ticket }; // clone so we don’t mutate directly
+		selectedTicket = { ...ticket }; // clone to avoid direct mutation
 		isModalOpen = true;
 	}
 
+	// Close modal
 	function closeModal() {
 		isModalOpen = false;
 		selectedTicket = null;
 	}
 
+	// Save ticket changes
 	async function saveTicket() {
 		if (!selectedTicket) return;
 
+		// Send update to backend
 		const formData = new FormData();
 		formData.append('id', selectedTicket.id);
 		formData.append('title', selectedTicket.title);
@@ -62,18 +96,20 @@
 			body: formData
 		});
 
-		board.update((b) => {
-			const list = b[selectedTicket.status];
+		// Update ticket in board state
+		board.update((board) => {
+			const list = board[selectedTicket.status];
 			const index = list.findIndex((t) => t.id === selectedTicket.id);
 			if (index !== -1) {
 				list[index] = { ...selectedTicket };
 			}
-			return { ...b };
+			return { ...board };
 		});
 
 		closeModal();
 	}
 
+	// Delete ticket from modal
 	async function deleteFromModal() {
 		await deleteTicket(selectedTicket.id, selectedTicket.status);
 		closeModal();
@@ -88,13 +124,12 @@
 				<span>Kanban</span>
 			</a>
 			<ul class="menu">
-				<li><a href="/front_page">Home</a></li>
+				<li><a href="/">Home</a></li>
 				<li><a href="/board_page">Board</a></li>
 				<li><a href="/about_page">About</a></li>
 				<li><a href="/contact_page">Contact</a></li>
 			</ul>
 			<ul class="menu">
-				<!-- <button class="logout-btn">Logout</button> -->
 				<p class="menu">Logged in as: <strong>{data.user.email}</strong></p>
 				<li class="nav-btn">
 					<button type="submit" name="logout" class="btn logout-btn">logout</button>
@@ -104,38 +139,14 @@
 	</header>
 </form>
 
+<!-- Kanban board -->
 <form method="POST" class="board">
 	<div class="wrapper">
 		{#each columns as status}
 			<div
 				class="kanban-column"
 				use:dropzone={{
-					on_dropzone: async (payload) => {
-						const ticket = JSON.parse(payload);
-
-						board.update((b) => {
-							// Remove from old column
-							b[ticket.status] = b[ticket.status].filter((t) => t.id !== ticket.id);
-
-							// Update ticket status
-							ticket.status = status;
-
-							// Add to new column
-							b[status] = [...b[status], ticket];
-
-							return { ...b }; // trigger reactivity
-						});
-
-						// Persist to backend
-						const formData = new FormData();
-						formData.append('id', ticket.id);
-						formData.append('status', status);
-
-						await fetch('?/move', {
-							method: 'POST',
-							body: formData
-						});
-					}
+					on_dropzone: (payload) => handleDrop(payload, status)
 				}}
 			>
 				<h2>{status}</h2>
@@ -164,7 +175,7 @@
 </form>
 
 {#if isModalOpen}
-	<div class="modal-backdrop" onclick={closeModal}></div>
+	<div class="modal-backdrop"></div>
 
 	<div class="modal">
 		<h2>Edit Ticket</h2>
@@ -180,9 +191,7 @@
 		</label>
 
 		<button type="button" id="priority-button" popovertarget="priority-menu" class="contact-btn">
-			{selectedTicket.priority
-				? selectedTicket.priority.charAt(0).toUpperCase() + selectedTicket.priority.slice(1)
-				: 'Priority'}
+			{selectedTicket.priority}
 		</button>
 
 		<label>

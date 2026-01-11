@@ -11,7 +11,7 @@
 		</a>
 
 		<ul class="menu">
-			<li><a href="/front_page">Home</a></li>
+			<li><a href="/">Home</a></li>
 			<li><a href="/board_page">Board</a></li>
 			<li><a href="/about_page">About</a></li>
 			<li><a href="/contact_page">Contact</a></li>

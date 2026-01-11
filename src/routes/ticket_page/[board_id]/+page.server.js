@@ -14,8 +14,8 @@ export const actions = {
     add: async ({ request, params }) => {
         const formData = await request.formData();
 
-        let status = formData.get('status')?.toLowerCase().trim();
-        let priority = formData.get('priority')?.toLowerCase().trim();
+        const status = formData.get('status')
+        const priority = formData.get('priority')
         const title = formData.get('title');
         const body = formData.get('body');
         const board_id = params.board_id;
@@ -33,8 +33,3 @@ export const actions = {
 
     }
 };
-
-
-// export const load = async ({ locals }) => {
-
-// };

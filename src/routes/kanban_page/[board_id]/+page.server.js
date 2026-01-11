@@ -1,7 +1,5 @@
 import { redirect } from '@sveltejs/kit';
 import db from '../../../../database/connection.js';
-import { goto } from '$app/navigation';
-
 
 export const actions = {
     logout: async ({ cookies }) => {
@@ -20,12 +18,10 @@ export const actions = {
     },
     delete: async ({ request, params }) => {
         const form = await request.formData();
-
         const id = form.get('id');
         const board_id = params.board_id;
 
         await db.run('DELETE FROM tickets WHERE board_id = ? AND id = ?', [board_id, id]);
-
 
         return { success: true };
 
@@ -45,34 +41,15 @@ export const actions = {
     }
 };
 
-export const load = async ({ locals, cookies, params }) => {
+export const load = async ({ cookies, params }) => {
     const sessionId = cookies.get('session_id');
 
     const rows = await db.all('SELECT users.* FROM sessions LEFT JOIN users ON sessions.user_id = users.id WHERE sessions.key = ?', [sessionId]);
-
     const boards = await db.all('SELECT * FROM boards WHERE id = ?', [params.board_id]);
-
     const tickets = await db.all('SELECT * FROM tickets WHERE board_id = ?', [params.board_id]);
-
-    if (rows.length === 0) {
-        // return fail(401, { message: 'Invalid email or password' });
-    }
-
-    if (boards.length === 0) {
-        // return fail(401, { message: 'Invalid board' });
-    }
 
     const user = rows[0];
     const board = boards[0]
-
-
-
-    // check om der er en session i databasen
-    // hvis der er en seesion i databasen skal man hente bruger objected til sessionen 
-
-    // if (!locals.user) {
-    //     throw redirect(302, '/login_form');
-    // }
 
     return {
         user,

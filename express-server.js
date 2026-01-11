@@ -21,9 +21,6 @@ wss.on('connection', function connection(ws) {
     });
 });
 
-// let SvelteKit handle everything else, including serving prerendered pages and static assets
-//app.use(handler);
-
 server.listen(3000, () => {
     console.log('listening on port 3000');
 });

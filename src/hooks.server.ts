@@ -43,14 +43,14 @@ export const handle: Handle = async ({ event, resolve }) => {
         }
 
         // If user is authenticated and trying to access public routes like sign-in
-        // redirect them to the dashboard instead
+        // redirect them to the front page instead
         if (isPublicRoute && url.pathname !== "/auth/logout") {
-            return Response.redirect(new URL("/front_page", url));
+            return Response.redirect(new URL("/", url));
         }
     } else {
         // User is not authenticated
         if (!isPublicRoute) {
-            // Non-public route requires authentication, redirect to login
+            // Non-public route requires authentication, redirect to front page
             cookies.delete('session_id', { path: '/' });
             cookies.delete('access_token', { path: '/' });
             return Response.redirect(new URL("/front_page", url));

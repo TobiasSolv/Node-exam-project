@@ -31,7 +31,7 @@
 		</a>
 
 		<ul class="menu">
-			<li><a href="/front_page">Home</a></li>
+			<li><a href="/">Home</a></li>
 			<li><a href="/board_page">Board</a></li>
 			<li><a href="/about_page">About</a></li>
 			<li><a href="/contact_page">Contact</a></li>
@@ -87,14 +87,14 @@
 				</label>
 
 				<label>
-					Body
+					Description
 					<textarea name="body" rows="4" placeholder="Description"></textarea>
 				</label>
 
 				<button type="submit" class="contact-btn">Add Ticket</button>
 
 				<div class="links" style="margin-top: 1rem;">
-					<a href="/kanban_page">Back</a>
+					<a href={`/kanban_page/${board_id}`}>Back</a>
 				</div>
 			</form>
 		</section>
