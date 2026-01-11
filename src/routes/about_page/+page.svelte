@@ -55,6 +55,23 @@
 	<div class="main-inner">
 		<h1>About Kanban</h1>
 
+		<section class="contact-section">
+			<div class="contact-card ws-chat">
+				<h3>Chat bot</h3>
+
+				<div class="messages">
+					{#each messages as msg}
+						<div class="message">{msg}</div>
+					{/each}
+				</div>
+
+				<form class="contact-form" on:submit|preventDefault={sendMessage}>
+					<input type="text" bind:value={messageInput} placeholder="Enter your message" />
+					<button type="submit" class="contact-btn"> Send Message </button>
+				</form>
+			</div>
+		</section>
+
 		<section class="about-section">
 			<p>
 				Kanban is a visual workflow system designed to help individuals and teams manage tasks with
@@ -141,25 +158,6 @@
 				traits of an effective workflow. Just like the fox, Kanban helps you stay agile and
 				confident in the face of changing tasks and priorities.
 			</p>
-		</section>
-
-		<section>
-			<h1>WebSocket Demo (Svelte)</h1>
-
-			<div class="messages">
-				{#each messages as msg}
-					<div class="message">{msg}</div>
-				{/each}
-			</div>
-
-			<input
-				type="text"
-				bind:value={messageInput}
-				placeholder="Enter your message"
-				on:keydown={(e) => e.key === 'Enter' && sendMessage()}
-			/>
-
-			<button on:click={sendMessage}>Send Message</button>
 		</section>
 	</div>
 </main>

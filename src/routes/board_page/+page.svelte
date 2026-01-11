@@ -49,7 +49,7 @@
 	<button class="board-card add-board" onclick={() => (showForm = true)}> Add Board </button>
 </section>
 
-<!-- Add board form -->
+<!-- Add board modal -->
 {#if showForm}
 	<div class="modal-backdrop" onclick={() => (showForm = false)}></div>
 

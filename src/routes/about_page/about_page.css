@@ -20,3 +20,171 @@
     font-size: 1rem;
     opacity: 0.9;
 }
+
+
+/* Chat-specific additions */
+
+.ws-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Message list */
+.messages {
+    max-height: 260px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-right: 0.25rem;
+}
+
+/* Individual message bubble */
+.message {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--stroke);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    backdrop-filter: blur(4px);
+}
+
+/* Scrollbar polish */
+.messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+}
+
+/* WebSocket chat container */
+.ws-chat {
+    margin-top: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--stroke);
+    border-radius: 14px;
+    padding: 1.5rem;
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Messages box */
+.messages {
+    max-height: 260px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-right: 0.25rem;
+}
+
+/* Individual message */
+.message {
+    align-self: flex-start;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--stroke);
+    padding: 0.6rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* Input + button row */
+.chat-input {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+/* Text input */
+.chat-input input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--stroke);
+    border-radius: 10px;
+    padding: 0.6rem 0.8rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    outline: none;
+    backdrop-filter: blur(4px);
+}
+
+.chat-input input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Send button */
+.chat-input button {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--stroke);
+    border-radius: 10px;
+    padding: 0.6rem 1.1rem;
+    color: var(--text);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    backdrop-filter: blur(6px);
+}
+
+.chat-input button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+}
+
+/* Scrollbar (optional polish) */
+.messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    backdrop-filter: blur(4px);
+}
+
+.contact-btn {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--stroke);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.contact-btn:hover {
+    text-shadow: 0 0 10px var(--text);
+    transform: translateY(-2px);
+}
